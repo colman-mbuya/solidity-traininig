@@ -1,24 +1,36 @@
 include .env
 export
 
-DEPLOY_SCRIPT=script/DeploySimpleStorage.s.sol
+DEPLOY_SCRIPT=scripts/deploy.ts
 
-### FORGE COMMANDS
+
+### Environment Setup
+
+# This assumes that you created a full hardhat typescript project which install a lot of the other dependencies
+.PHONY: install-deps
+install-deps:
+	yarn add --dev @nomicfoundation/hardhat-verify dotenv
+
+.PHONY: run-local-network
+run-local-network:
+	yarn hardhat node
+
+### Compile and deploy Commands
 
 .PHONY: compile
 compile:
-	forge compile
+	yarn hardhat compile
 
 .PHONY: local-deploy
 local-deploy:
-	forge script $(DEPLOY_SCRIPT) --rpc-url $(LOCAL_RPC_URL) --private-key $(PRIVATE_KEY) --broadcast
+	yarn hardhat run $(DEPLOY_SCRIPT) --network localhost
 
 .PHONY: sepolia-deploy
 sepolia-deploy:
-	forge script $(DEPLOY_SCRIPT) --rpc-url $(SEPOLIA_RPC_URL) --private-key $(SEPOLIA_PRIVATE_KEY) --broadcast --verify
+	yarn hardhat run $(DEPLOY_SCRIPT) --network sepolia
 
 ### Tests
 
-# .PHONY: run-tests
-# run-tests:
-# 	TBC
+.PHONY: run-tests
+run-tests:
+	yarn hardhat test
