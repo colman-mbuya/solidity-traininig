@@ -9,7 +9,7 @@ DEPLOY_SCRIPT=scripts/deploy.ts
 # This assumes that you created a full hardhat typescript project which install a lot of the other dependencies
 .PHONY: install-deps
 install-deps:
-	yarn add --dev @nomicfoundation/hardhat-verify dotenv
+	yarn
 
 .PHONY: run-local-network
 run-local-network:
